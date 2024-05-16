@@ -59,7 +59,7 @@ def calcular(_):
 calcular_button.on_click(calcular)
 
 # Mostrar los widgets
-
+print("Ingrese los datos para el cálculo, donde: \nC0 = Consumo\nI = Inversión\nG = Gasto del Gobierno\nXN = Exportaciones Netas\nT = Impuestos\nPMC = Propensión marginal al consumo")
 display(C0_widget, I_widget, G_widget, XN_widget, T_widget, PMC_widget)
 print("Si el consumo aumentó o disminuyó, ingrese el nuevo valor:")
 
