@@ -1,7 +1,7 @@
 import ipywidgets as widgets
 import matplotlib.pyplot as plt
 import numpy as np
-
+import matplotlib.ticker as ticker
 
 
 # Definir los widgets para los parámetros
@@ -32,7 +32,7 @@ def calcular(_):
     print(f"GAP = {GAP} + ({PMC})Y")
     print(f"PIB = {PIB}\n") 
     print(f"GAP2 = {GAP2} + ({PMC})Y")
-    print(f"PIB2 = {PIB2}")
+    print(f"PIB2 = {PIB2}\n")
 
     x = np.linspace(0, 10000, 100)
 
@@ -48,10 +48,20 @@ def calcular(_):
     plt.plot(x, y1, 'r--', linewidth=2)  # Línea 1: Rojo, punteada
     plt.plot(x, y2, 'g-', linewidth=3)  # Línea 2: Verde, gruesa
     plt.plot(x, y3, 'g-', linewidth=3)  # Línea 3: Verde, gruesa
-    plt.title('Avance en la gráfica determinación del equilibrio (Aspa Keynesiana o Cruz Keynesiana)')
+    plt.title('Avance en la gráfica determinación del equilibrio (Aspa Keynesiana o Cruz Keynesiana)',pad=20)
     plt.axhline(0, color='black',linewidth=0.5)
     plt.axvline(0, color='black',linewidth=0.5)
     plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
+    ax = plt.gca()
+    ax.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: '{:,.0f}'.format(x)))
+    ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: '{:,.0f}'.format(y)))
+
+    ax.set_xlabel('PIB', labelpad=20)
+    ax.set_ylabel('Gasto agregado planeado (GAP)', labelpad=20)
+
+    plt.annotate('45°', xy=(x[-1], y1[-1]), xytext=(5, 0), textcoords='offset points', color='red')
+    plt.annotate(f"GAP = {GAP} + ({PMC})Y", xy=(x[-1], y2[-1]), xytext=(5, 0), textcoords='offset points', color='green')
+    plt.annotate(f"GAP2 = {GAP2} + ({PMC})Y", xy=(x[-1], y3[-1]), xytext=(5, 0), textcoords='offset points', color='green')
 
     plt.show()
 
