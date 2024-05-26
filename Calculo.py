@@ -18,6 +18,7 @@ calcular_button2 = widgets.Button(description="Calcular")
 
 # Función para calcular el GAP
 def calcular(_):
+    global C0_widget2, I_widget2, G_widget2, XN_widget2, T_widget2, PMC_widget2
     C0 = C0_widget.value
     PMC = PMC_widget.value
     T = T_widget.value
@@ -78,17 +79,15 @@ def calcular2(_):
     GAP = (C0 - PMC * T + I + G + XN)
     PIB = round(GAP+PMC*Y, 2)
 
-    
 
     C02 = C0_widget2.value
-    C2= C_widget2.value
     PMC2 = PMC_widget2.value
     T2 = T_widget2.value
     I2 = I_widget2.value
     G2 = G_widget2.value
     XN2 = XN_widget2.value
-    Y2 = 1 / (1 - PMC2) * (C2 - PMC2 * T2 + I2 + G2 + XN2)
-    GAP2 = (C2 - PMC2 * T2 + I2 + G2 + XN2)
+    Y2 = 1 / (1 - PMC2) * (C02 - PMC2 * T2 + I2 + G2 + XN2)
+    GAP2 = (C02 - PMC2 * T2 + I2 + G2 + XN2)
     PIB2 = round(GAP2+PMC*Y2, 2)
     print(f"GAP = {GAP} + ({PMC})Y")
     print(f"PIB = {PIB}\n") 
