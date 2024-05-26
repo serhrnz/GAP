@@ -31,15 +31,19 @@ def calcular(_):
     print(f"GAP = {GAP} + ({PMC})Y")
     print(f"PIB = {PIB}\n") 
 
-    x = np.linspace(0, 10000, 100)
+    x = np.linspace(PIB*0.2, PIB*1.5, 100)
 
     y1 = x  # Línea 1: Pendiente 45°, pasa por (0, 0)
     y2 = GAP + PMC * x  # Línea 2: Pendiente = PMC, intersección en x=PIB
 
     # Graficar las líneas
     # Ajustar los límites del eje x e y
-    plt.xlim(0, max(max(x), max(y1), max(y2)))
-    plt.ylim(0, max(max(x), max(y1), max(y2)))  
+
+    # Crear una figura más grande
+    plt.figure(figsize=(12, 8))
+
+    plt.xlim(PIB*0.2, max(max(x), max(y1), max(y2)))
+    plt.ylim(PIB*0.2, max(max(x), max(y1), max(y2)))  
 
     plt.plot(x, y1, 'r--', linewidth=2)  # Línea 1: Rojo, punteada
     plt.plot(x, y2, 'g-', linewidth=3)  # Línea 2: Verde, gruesa
@@ -51,13 +55,27 @@ def calcular(_):
     ax.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: '{:,.0f}'.format(x)))
     ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: '{:,.0f}'.format(y)))
 
+    ax.tick_params(axis='x', which='major', pad=10)  # Aumentar el espacio para el eje x
+    ax.tick_params(axis='y', which='major', pad=10)  # Aumentar el espacio para el eje y
+
     ax.set_xlabel('PIB', labelpad=20)
     ax.set_ylabel('Gasto agregado planeado (GAP)', labelpad=20)
 
     plt.annotate('45°', xy=(x[-1], y1[-1]), xytext=(5, 0), textcoords='offset points', color='red')
     plt.annotate(f"GAP = {GAP} + ({PMC})Y", xy=(x[-1], y2[-1]), xytext=(5, 0), textcoords='offset points', color='green')
+    
+    # Trazar una línea punteada desde el punto (x_c, y_c) al eje y (x=0)
+    plt.plot([PIB, PIB], [0, PIB], 'k--', label=f'{PIB}')  # Línea punteada vertical
+    #plt.plot([0, PIB], [PIB, PIB], 'k--')  # Línea punteada horizontal
+
+    # Marcar el punto c
+    #plt.scatter([PIB], [PIB], color='red')  # Punto c en rojo
+    plt.text(PIB, PIB*0.2, f'{PIB}', fontsize=12, verticalalignment='top',horizontalalignment='center')
+
 
     plt.show()
+
+
     print("Si alguna variable cambió, ingrese el nuevo valor:\n")
 
     C0_widget2 = widgets.FloatText(description='C0:',value=C0)
@@ -94,16 +112,22 @@ def calcular2(_):
     print(f"GAP2 = {GAP2} + ({PMC})Y")
     print(f"PIB2 = {PIB2}\n")
 
-    x = np.linspace(0, 10000, 100)
+    zoom = max(0,max(PIB,PIB2)-(abs(PIB-PIB2)*2))
+    limite = max(PIB,PIB2)+abs(PIB-PIB2)*.5
+    x = np.linspace(zoom, limite, 100)
 
     y1 = x  # Línea 1: Pendiente 45°, pasa por (0, 0)
     y2 = GAP + PMC * x  # Línea 2: Pendiente = PMC, intersección en x=PIB
-    y3 = GAP2 + PMC2 * x  # Línea 3: Pendiente = PMC, intersección en x=PIB
+    y3 = GAP2 + PMC2 * x  # Línea 3: Pendiente = PMC, intersección en x=PIB2
 
     # Graficar las líneas
     # Ajustar los límites del eje x e y
-    plt.xlim(0, max(max(x), max(y1), max(y2)))
-    plt.ylim(0, max(max(x), max(y1), max(y2)))  
+
+    # Crear una figura más grande
+    plt.figure(figsize=(12, 8))
+
+    plt.xlim(zoom, limite)
+    plt.ylim(zoom, limite)
 
     plt.plot(x, y1, 'r--', linewidth=2)  # Línea 1: Rojo, punteada
     plt.plot(x, y2, 'g-', linewidth=3)  # Línea 2: Verde, gruesa
@@ -116,14 +140,46 @@ def calcular2(_):
     ax.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: '{:,.0f}'.format(x)))
     ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: '{:,.0f}'.format(y)))
 
+    ax.tick_params(axis='x', which='major', pad=10)  # Aumentar el espacio para el eje x
+    ax.tick_params(axis='y', which='major', pad=10)  # Aumentar el espacio para el eje y
+
     ax.set_xlabel('PIB', labelpad=20)
     ax.set_ylabel('Gasto agregado planeado (GAP)', labelpad=20)
 
     plt.annotate('45°', xy=(x[-1], y1[-1]), xytext=(5, 0), textcoords='offset points', color='red')
-    plt.annotate(f"GAP = {GAP} + ({PMC})Y", xy=(x[-1], y2[-1]), xytext=(5, 0), textcoords='offset points', color='green')
-    plt.annotate(f"GAP2 = {GAP2} + ({PMC2})Y", xy=(x[-1], y3[-1]), xytext=(5, 0), textcoords='offset points', color='green')
+    plt.annotate(f"GAP = {GAP} + ({PMC})Y", xy=(x[-1], y2[-1]), xytext=(5, 0), textcoords='offset points', color='green',va='center')
+    plt.annotate(f"GAP2 = {GAP2} + ({PMC2})Y", xy=(x[-1], y3[-1]), xytext=(5, 0), textcoords='offset points', color='green',va='center')
+
+    # Trazar una línea punteada desde el punto (x_c, y_c) al eje y (x=0)
+    plt.plot([PIB, PIB], [0, PIB], 'k--', label=f'{PIB}')  # Línea punteada vertical
+    #plt.plot([0, PIB], [PIB, PIB], 'k--')  # Línea punteada horizontal
+
+    # Marcar el punto c
+    #plt.scatter([PIB], [PIB], color='red')  # Punto c en rojo
+    if PIB>PIB2:
+      plt.text(PIB, zoom, f'{PIB}', fontsize=12, verticalalignment='top',horizontalalignment='center')
+    else:
+      plt.text(PIB, zoom, f'{PIB}', fontsize=12, verticalalignment='top',horizontalalignment='center')
+
+    # Trazar una línea punteada desde el punto (x_c, y_c) al eje y (x=0)
+    plt.plot([PIB2, PIB2], [0, PIB2], 'k--', label=f'{PIB2}')  # Línea punteada vertical
+    #plt.plot([0, PIB], [PIB, PIB], 'k--')  # Línea punteada horizontal
+
+    # Marcar el punto c
+    #plt.scatter([PIB], [PIB], color='red')  # Punto c en rojo
+    if PIB>PIB2:
+      plt.text(PIB2, zoom, f'{PIB2}', fontsize=12, verticalalignment='top',horizontalalignment='center')
+    else:
+      plt.text(PIB2, zoom, f'{PIB2}', fontsize=12, verticalalignment='top',horizontalalignment='center')
 
     plt.show()
+
+    A = round((PIB-PIB2)*(1-PMC),2)
+
+    if PIB>PIB2:
+      print(f"El Gobierno debe aplicar una política fiscal expansiva, incrementando el gasto en {A} unidades para regresar al PIB de pleno empleo.")
+    else:
+      print(f"El Gobierno debe aplicar una política fiscal contractiva, disminuyendo el gasto en {-A} unidades para regresar al PIB de pleno empleo.")
     
 
 # Manejar los eventos de clic en el botón
